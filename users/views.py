@@ -10,3 +10,10 @@ def getUser(request, user_id):
     user = User.objects.get(id = user_id)
     serializer = UserSerializer(user)
     return Response(serializer.data)
+
+@api_view(['POST'])
+def postUser(request):
+    serializer = UserSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
