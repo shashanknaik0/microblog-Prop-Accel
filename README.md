@@ -67,10 +67,10 @@ python manage.py runserver
 step 4: visit the development server at http://127.0.0.1:8000 and use below api endpoints 
 <pre>
 /api/users/ - (POST) Add a new user to the platform. The user details will include fields like username, email, and password. 
-/api/users/	&lt;int:user_id&gt;/ - (GET) Retrieve details of a specific user.
-/api/users/	&lt;int:user_id&gt;/ - (PUT/PATCH) Update the details of a specific user.
+/api/users/&lt;int:user_id&gt;/ - (GET) Retrieve details of a specific user.
+/api/users/&lt;int:user_id&gt;/ - (PUT/PATCH) Update the details of a specific user.
 /api/posts/ - (POST) A user creates a new post. The post details will include fields like user_id, content, and post_date.
-/api/posts/	&lt;int:post_id&gt;/ - (GET, PUT/PATCH, DELETE) - CRUD operations for a specific post.
+/api/posts/&lt;int:post_id&gt;/ - (GET, PUT/PATCH, DELETE) - CRUD operations for a specific post.
 /api/posts/ - (GET) List all posts available on the platform.
 </pre>
 
