@@ -32,7 +32,16 @@ def getUpdateOrDeletePost(request, post_id):
         post.save()
         serializer = PostSerializer(post)
         return Response(serializer.data)
+    
+    elif request.method == 'DELETE':
+        try:
+            post = Post.objects.get(id = post_id)
+        except Exception:
+            return Response("Post with id "+str(post_id)+" does not exist", status=status.HTTP_400_BAD_REQUEST)
         
+        post.delete()
+        return Response("Post with id "+str(post_id)+" is deleted")
+                
 @api_view(['GET','POST'])
 def getAllAndCreatePost(request):
     if request.method == 'GET':
