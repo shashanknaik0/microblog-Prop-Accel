@@ -6,3 +6,6 @@
 #cache
 __pycache__
 *.pyc
+
+#migrations
+migrations
