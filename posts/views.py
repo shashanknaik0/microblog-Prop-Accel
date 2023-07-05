@@ -7,16 +7,32 @@ from .models import Post
 # Create your views here.
 @api_view(['GET','PUT', 'PATCH', 'DELETE'])
 def getUpdateOrDeletePost(request, post_id):
-        if request.method == 'GET':
-            post=None
-            try:
-                post = Post.objects.get(id = post_id)
-            except Exception:
-                return Response("Post with id "+str(post_id)+" does not exist", status=status.HTTP_400_BAD_REQUEST)
-            #serialize django query object
-            serializer = PostSerializer(post)
-            return Response(serializer.data)
-            
+    post=None
+    if request.method == 'GET':
+        try:
+            post = Post.objects.get(id = post_id)
+        except Exception:
+            return Response("Post with id "+str(post_id)+" does not exist", status=status.HTTP_400_BAD_REQUEST)
+        #serialize django query object
+        serializer = PostSerializer(post)
+        return Response(serializer.data)
+    
+    elif request.method in ['PUT','PATCH']:
+        try:
+            post = Post.objects.get(id = post_id)
+        except Exception:
+            return Response("Post with id "+str(post_id)+" does not exist", status=status.HTTP_400_BAD_REQUEST)
+                
+        #updating fields
+        #since it is illogical to update userid, i am not allowing to update userid
+        #if we want to update user id,then get the object of user model with specified id and asign to post.user_id
+        post.content = request.data['content']
+
+        #saving to database
+        post.save()
+        serializer = PostSerializer(post)
+        return Response(serializer.data)
+        
 @api_view(['GET','POST'])
 def getAllAndCreatePost(request):
     if request.method == 'GET':
