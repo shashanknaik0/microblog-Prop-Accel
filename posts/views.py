@@ -17,3 +17,12 @@ def getAllAndCreatePost(request):
         #serialize django query object
         serializer = PostSerializer(post, many=True)
         return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        serializer = PostSerializer(data=request.data)
+        #validate as specified in model
+        if serializer.is_valid():
+            #saving to database
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
