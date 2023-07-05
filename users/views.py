@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from .serializer import UserSerializer
-from .models import User
+from django.contrib.auth.models import User
 
 # Create your views here.
 @api_view(['GET','PUT','PATCH'])
@@ -34,6 +34,8 @@ def getOrUpdateUser(request, user_id):
                 user.username = serializer.data['username']
                 user.email = serializer.data['email']
                 user.password = serializer.data['password']
+                user.first_name = serializer.data['first_name']
+                user.last_name = serializer.data['last_name']
                 #saving to database
                 user.save()
                 return Response(serializer.data)
