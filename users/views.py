@@ -3,9 +3,11 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from .serializer import UserSerializer
 from django.contrib.auth.models import User
+from django.views.decorators.cache import cache_page
 
 # Create your views here.
 @api_view(['GET','PUT','PATCH'])
+@cache_page(60*5) # Cache for 5 minutes
 def getOrUpdateUser(request, user_id):
     user=None
     try:
