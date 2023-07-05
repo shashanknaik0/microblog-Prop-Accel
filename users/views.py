@@ -29,9 +29,9 @@ def getOrUpdateUser(request, user_id):
         #updating fields
         user.username = request.data['username']
         user.email = request.data['email']
-        user.password = request.data['password']
         user.first_name = request.data['first_name']
         user.last_name = request.data['last_name']
+        user.set_password(request.data['password'])
         #saving to database
         user.save()
         serializer = UserSerializer(user)
