@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -8,24 +7,20 @@ from django.contrib.auth.models import User
 # Create your views here.
 @api_view(['GET','PUT','PATCH'])
 def getOrUpdateUser(request, user_id):
+    user=None
+    try:
+        user = User.objects.get(id = user_id)
+    except Exception:
+        return Response("User with id "+str(user_id)+" does not exist", status=status.HTTP_404_NOT_FOUND)
+        
     if request.method == 'GET':
-        user=None
-        try:
-            user = User.objects.get(id = user_id)
-        except Exception:
-            return Response("User with id "+str(user_id)+" does not exist", status=status.HTTP_400_BAD_REQUEST)
         #serialize django query object
         serializer = UserSerializer(user)
         return Response(serializer.data)
     
     elif request.method in ['PUT','PATCH']:
         #we can check here if we want only logged in user want to update (by using req.user.is_authenticated)
-        user=None
-        try:
-            user = User.objects.get(id = user_id)
-        except Exception:
-            return Response("User with id "+str(user_id)+" does not exist", status=status.HTTP_400_BAD_REQUEST)
-                
+
         #updating fields
         user.username = request.data['username']
         user.email = request.data['email']

@@ -8,21 +8,18 @@ from .models import Post
 @api_view(['GET','PUT', 'PATCH', 'DELETE'])
 def getUpdateOrDeletePost(request, post_id):
     post=None
+
+    try:
+        post = Post.objects.get(id = post_id)
+    except Exception:
+        return Response("Post with id "+str(post_id)+" does not exist", status=status.HTTP_404_NOT_FOUND)
+    
     if request.method == 'GET':
-        try:
-            post = Post.objects.get(id = post_id)
-        except Exception:
-            return Response("Post with id "+str(post_id)+" does not exist", status=status.HTTP_400_BAD_REQUEST)
         #serialize django query object
         serializer = PostSerializer(post)
         return Response(serializer.data)
     
-    elif request.method in ['PUT','PATCH']:
-        try:
-            post = Post.objects.get(id = post_id)
-        except Exception:
-            return Response("Post with id "+str(post_id)+" does not exist", status=status.HTTP_400_BAD_REQUEST)
-                
+    elif request.method in ['PUT','PATCH']: 
         #updating fields
         #since it is illogical to update userid, i am not allowing to update userid
         #if we want to update user id,then get the object of user model with specified id and asign to post.user_id
@@ -34,11 +31,6 @@ def getUpdateOrDeletePost(request, post_id):
         return Response(serializer.data)
     
     elif request.method == 'DELETE':
-        try:
-            post = Post.objects.get(id = post_id)
-        except Exception:
-            return Response("Post with id "+str(post_id)+" does not exist", status=status.HTTP_400_BAD_REQUEST)
-        
         post.delete()
         return Response("Post with id "+str(post_id)+" is deleted")
                 
