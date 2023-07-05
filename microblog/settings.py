@@ -145,3 +145,6 @@ CACHES = {
         }
     }
 }
+
+# Cache time to live is 5 minutes.
+CACHE_TTL = 60 * 5
