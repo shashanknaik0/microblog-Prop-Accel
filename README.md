@@ -64,7 +64,7 @@ step 3: run the server
 python manage.py runserver
 </pre>
 
-step 4: visit the development server at http://127.0.0.1:8000 and use below api endpoints 
+step 4: visit the development server at http://127.0.0.1:8000 and use below api endpoints. Read <a href="API%20documentation.pdf">API documentation</a> for more information.
 <pre>
 /api/users/ - (POST) Add a new user to the platform. The user details will include fields like username, email, and password. 
 /api/users/&lt;int:user_id&gt;/ - (GET) Retrieve details of a specific user.
@@ -74,3 +74,7 @@ step 4: visit the development server at http://127.0.0.1:8000 and use below api 
 /api/posts/ - (GET) List all posts available on the platform.
 </pre>
 
+<hr>
+<h2>Result</h2>
+
+<img src="screenshots/result.png" alt="Loading....">
