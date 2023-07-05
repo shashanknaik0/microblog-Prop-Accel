@@ -7,9 +7,16 @@ from .models import Post
 # Create your views here.
 @api_view(['GET','PUT', 'PATCH', 'DELETE'])
 def getUpdateOrDeletePost(request, post_id):
-    return Response()
-        
-
+        if request.method == 'GET':
+            post=None
+            try:
+                post = Post.objects.get(id = post_id)
+            except Exception:
+                return Response("Post with id "+str(post_id)+" does not exist", status=status.HTTP_400_BAD_REQUEST)
+            #serialize django query object
+            serializer = PostSerializer(post)
+            return Response(serializer.data)
+            
 @api_view(['GET','POST'])
 def getAllAndCreatePost(request):
     if request.method == 'GET':
